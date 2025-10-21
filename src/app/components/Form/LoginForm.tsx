@@ -3,7 +3,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import LoadingForm from "./loandingForm";
-import { Eye, EyeOff, CircleAlert } from "lucide-react";
+import { Eye, EyeOff, CircleAlert,CircleCheck } from "lucide-react";
+import { jwtDecode } from "jwt-decode";
+import { useAuthStore } from "@/app/store/authStore";
+
+
+
 
 export default function LoginForm() {
   const [dni, setDni] = useState("");
@@ -11,6 +16,7 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const router = useRouter();
+  const loginStore = useAuthStore();
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -40,43 +46,64 @@ export default function LoginForm() {
       const res = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ DNI: dni, password }),
+        body: JSON.stringify({   dni, password }),
       });
-
+      
+      
       const data = await res.json();
+     
 
       if (!res.ok) {
         throw new Error(data.message || "Credenciales incorrectas");
       }
 
-      // Guardamos el token
-      if (data.access_token) {
-        localStorage.setItem("token", data.access_token);
-      }
+     toast.success("Inicio de sesión exitoso", {
+      icon: <CircleCheck color="#FFFFFF" size={20} />,
+      style: { 
+        background: "#10B948", 
+        color: "#FFFFFF",
+        boxShadow: "0 4px 6px rgba(0,0,0,0.1)" 
+      },
+    });
 
-      // Guardamos el rol
-      if (data.role) {
-        localStorage.setItem("role", data.role);
-      }
-
-      toast.success("Inicio de sesión exitoso", {
-        style: { background: "#1ABC9C", color: "#FAFAFA" },
-      });
 
       // según el rol
-      switch (data.role) {
-        case "ADMIN":
-          router.push("/admin/dashboard");
-          break;
-        case "MEDIC":
-          router.push("/user/dashboard");
-          break;
-        case "PATIENT":
-          router.push("/patient/dashboard");
-          break;
-        default:
-          router.push("/dashboard");
-      }
+      if (data.access_token) {
+        localStorage.setItem("token", data.access_token);
+
+        const decoded: any = jwtDecode(data.access_token);
+        //ZUSTAND
+         loginStore.login(
+  { 
+    dni: decoded.dni, 
+    role: decoded.userType,
+    name: decoded.name,
+    Lastname: decoded.lastname 
+  },
+  data.access_token
+);
+        //localStorage
+        const userRole = decoded.userType;// tomamos el rol 
+        localStorage.setItem("role", userRole);
+
+      // según el rol
+      setTimeout(() => {
+          switch (userRole) {
+            case "ADMIN":
+              router.push("/admin/dashboard");
+              break;
+            case "MEDIC":
+              router.push("/medic/dashboard");
+              break;
+            case "PATIENT":
+              router.push("/patient/dashboard");
+              break;
+            default:
+              router.push("/dashboard");
+          }
+        }, 2000); 
+    }
+
 
     } catch (err: unknown) {
       const message =

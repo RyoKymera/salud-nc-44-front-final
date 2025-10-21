@@ -2,9 +2,11 @@
 import { useRouter } from "next/navigation";
 import {toast} from "react-toastify"
 import {LogOut} from  "lucide-react"
+import { useAuthStore } from "@/app/store/authStore"; 
 
 export default function LogoutButton() {
   const router = useRouter();
+  const logout = useAuthStore((state) => state.logout);
 
   const handleLogout = async () => {
     try {
@@ -17,17 +19,21 @@ export default function LogoutButton() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, //ver si lo requiere
+            Authorization: `Bearer ${token}`, 
           },
+          credentials: "include",
         });
       }
-
-      localStorage.removeItem("token");
+      //store
+      logout();
+      
       toast.success("Sesión cerrada correctamente");
-      router.push("/");
+    
+
+      setTimeout(() => router.push("/"), 1000);
 
     } catch (error) {
-      console.error("Error al cerrar sesión:", error);
+      
       toast.error("No se pudo cerrar sesión correctamente");
     }
   };
