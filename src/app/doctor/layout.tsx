@@ -9,19 +9,17 @@ interface DoctorLayoutProps {
 }
 
 export default function DoctorLayout({ children }: DoctorLayoutProps) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
 
   return (
-    <div className="flex bg-color-background-app text-color-dark h-screen overflow-hidden">
+    <div className="flex h-screen bg-background text-foreground overflow-hidden">
       {/* SIDEBAR */}
       <SidebarDoc isOpen={isOpen} setIsOpen={setIsOpen} />
-      
-      {/* CONTENIDO */}
+
+      {/* CONTENEDOR PRINCIPAL */}
       <div className="flex flex-col flex-1 ml-20 md:ml-64 transition-all duration-300">
         <HeaderDoc />
-        <main className="p-6 overflow-y-auto mt-16 h-full">
-          {children}
-        </main>
+        <main className="p-6 flex-1 overflow-y-auto">{children}</main>
       </div>
     </div>
   );

@@ -2,10 +2,9 @@ import { HiMagnifyingGlass, HiOutlineBell } from "react-icons/hi2";
 
 export default function HeaderDoc() {
   return (
-    <header className="h-16 bg-white border-b flex items-center justify-between px-6 shadow-sm w-full">
-      {/* LOGO (lo agregamos después) */}
-      {/* <Image src="/logo.png" alt="Logo" width={120} height={40} /> */}
-      <div className="w-40 font-semibold text-primary">
+    <header className="h-16 bg-white border-b flex items-center justify-between px-6 shadow-sm w-full fixed top-0 left-0 right-0 z-30">
+      {/* LOGO */}
+      <div className="w-40 font-semibold text-primary ml-10 md:ml-10 transition-all duration-300">
         LOGO
       </div>
 
