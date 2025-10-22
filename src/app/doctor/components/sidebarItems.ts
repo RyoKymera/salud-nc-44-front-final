@@ -5,6 +5,7 @@ import {
   HiMiniUserGroup,
   HiMiniClipboardDocumentList,
   HiArrowLeftEndOnRectangle,
+  HiOutlineBars3
 } from "react-icons/hi2";
 
 export interface SidebarItemType {
@@ -15,23 +16,27 @@ export interface SidebarItemType {
 
 export const sidebarItems: SidebarItemType[] = [
   {
-    label: "Schedule", // Mi Agenda
+    label: "", //Menú Hamburguesa
+    icon: HiOutlineBars3,
+  },
+  {
+    label: "Mi Agenda", 
     icon: HiMiniCalendarDays,
   },
   {
-    label: "Teleconsult",
+    label: "Teleconsulta", 
     icon: HiMiniVideoCamera,
   },
   {
-    label: "Patients",
+    label: "Pacientes", 
     icon: HiMiniUserGroup,
   },
   {
-    label: "Records", // Historiales
+    label: "Historiales", 
     icon: HiMiniClipboardDocumentList,
   },
   {
-    label: "Logout",
+    label: "Cerrar Sesión", //Este label y si se agrega configuración, se deben ajustar en el span de SidebarDoc
     icon: HiArrowLeftEndOnRectangle,
   },
 ];
