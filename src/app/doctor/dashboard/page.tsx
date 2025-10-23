@@ -1,4 +1,5 @@
 import { HiMiniPlus } from "react-icons/hi2";
+import MyCalendar from "../components/CalendarDoc";
 
 export default function DoctorDashboardPage() {
   return (
@@ -18,6 +19,10 @@ export default function DoctorDashboardPage() {
                 </button>
             </div>
         </header>
+
+        <main>
+            <MyCalendar />
+        </main>
 
     </div>
   )

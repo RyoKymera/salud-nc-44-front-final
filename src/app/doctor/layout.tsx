@@ -9,7 +9,7 @@ interface DoctorLayoutProps {
 }
 
 export default function DoctorLayout({ children }: DoctorLayoutProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <div className="flex h-screen bg-background text-foreground overflow-hidden">
@@ -17,7 +17,7 @@ export default function DoctorLayout({ children }: DoctorLayoutProps) {
       <SidebarDoc isOpen={isOpen} setIsOpen={setIsOpen} />
 
       {/* CONTENEDOR PRINCIPAL */}
-      <div className={`flex flex-col flex-1 ml-20 md:ml-${isOpen ? '64' : '20'} transition-all duration-300`}>
+      <div className="flex flex-col flex-1 transition-all duration-300" style={{ marginLeft: isOpen ? '256px' : '80px' }}>
         <HeaderDoc />
         <main className="p-6 flex-1 overflow-y-auto">{children}</main>
       </div>

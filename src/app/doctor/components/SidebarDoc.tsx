@@ -1,6 +1,6 @@
 "use client";
 
-import { sidebarItems } from "./sidebarItems";
+import { sidebarItems } from "../utils/sidebarItems";
 import { HiMiniArrowLeftOnRectangle } from "react-icons/hi2";
 
 interface SidebarDocProps {
