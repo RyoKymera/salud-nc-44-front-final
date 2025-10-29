@@ -32,7 +32,7 @@ export default function LogoutButton() {
 
       setTimeout(() => router.push("/"), 1000);
 
-    } catch (error) {
+    } catch {
       
       toast.error("No se pudo cerrar sesión correctamente");
     }

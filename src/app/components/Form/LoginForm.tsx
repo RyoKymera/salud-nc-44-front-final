@@ -7,8 +7,14 @@ import { Eye, EyeOff, CircleAlert,CircleCheck } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
 import { useAuthStore } from "@/app/store/authStore";
 
-
-
+interface DecodedToken {
+  dni: string;
+  userType: "ADMIN" | "MEDIC" | "PATIENT";
+  name: string;
+  lastname: string;
+  exp: number;
+  iat: number;
+}
 
 export default function LoginForm() {
   const [dni, setDni] = useState("");
@@ -71,7 +77,7 @@ export default function LoginForm() {
       if (data.access_token) {
         localStorage.setItem("token", data.access_token);
 
-        const decoded: any = jwtDecode(data.access_token);
+        const decoded: DecodedToken = jwtDecode(data.access_token);
         //ZUSTAND
          loginStore.login(
   { 

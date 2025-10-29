@@ -1,7 +1,6 @@
 "use client";
 import AdminScheduleConfig from "@/app/components/AdminScheduleConfig/AdminScheduleConfig";
 import { AdminUsersTable } from "../../components/AdminUsersTable/AdminUsersTable";
-import { useState } from "react";
 
 export default function AdminDashboard() {
   return (
