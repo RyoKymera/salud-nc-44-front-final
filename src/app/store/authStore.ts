@@ -43,7 +43,7 @@ export const useAuthStore = create(
           set({ token: data.access_token,user: data.user });
           localStorage.setItem("token", data.access_token);
           return data.access_token;
-        } catch (err) {
+        } catch {
           get().logout();
           return null;
         }

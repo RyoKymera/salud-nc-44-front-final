@@ -104,7 +104,7 @@ export function AddUserModal({
         throw new Error(errorData.message || "Error al crear usuario");
       }
 
-      const newUser = await response.json();
+      await response.json();
       handleCancel();
       if (onUserCreated) {
         onUserCreated();
