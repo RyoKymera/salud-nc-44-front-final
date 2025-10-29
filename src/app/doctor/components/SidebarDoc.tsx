@@ -1,0 +1,52 @@
+"use client";
+
+import { sidebarItems } from "../utils/sidebarItems";
+import { HiMiniArrowLeftOnRectangle } from "react-icons/hi2";
+
+interface SidebarDocProps {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function SidebarDoc({ isOpen, setIsOpen }: SidebarDocProps) {
+  const isCollapsed = !isOpen;
+
+  return (
+    <aside
+      // con esto se puede automatizar el toggle de la sidebar al pasar sobre él, lo dejo mejor con un botón
+      // onMouseEnter={() => setIsOpen(true)} 
+      // onMouseLeave={() => setIsOpen(false)}
+      className={`fixed left-0 top-0 h-screen bg-primary text-white shadow-md flex flex-col transition-all duration-300 z-20
+      ${isCollapsed ? "w-20" : "w-60"}`}
+    >
+      <nav className="flex-1 mt-18 space-y-1 px-2">
+        {sidebarItems.slice(0, -1).map((item, index) => (
+          //Para agregar o eliminar botones de la sidebar se hace desde el archivo sidebarItems
+          <button
+            key={index}
+            className={`flex items-center gap-4 w-full px-4 py-3 text-sm rounded-md transition-all
+            hover:bg-secondary hover:shadow-md hover:shadow-secondary/30
+            ${isCollapsed ? "justify-center px-0" : "justify-start"}`}
+            // Solo el primer botón hace toggle
+            onClick={index === 0 ? () => setIsOpen(!isOpen) : undefined}
+          >
+            <item.icon size={22} />
+            {!isCollapsed && <span className="">{item.label}</span>}
+          </button>
+        ))}
+      </nav>
+
+      {/* LOGOUT */}
+      <div className="border-t border-white/20 px-2 mb-4">
+        <button
+          className={`flex items-center gap-4 w-full px-4 py-3 text-sm rounded-md transition-all
+          hover:bg-red-600 hover:shadow-md hover:shadow-red-600/30
+          ${isCollapsed ? "justify-center px-0" : "justify-start"}`}
+        >
+          <HiMiniArrowLeftOnRectangle size={22} />
+          {!isCollapsed && <span>Cerrar Sesión</span>} {/* Acá se configura el label del botón */}
+        </button>
+      </div>
+    </aside>
+  );
+}
