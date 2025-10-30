@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import {toast} from "react-toastify"
-import {LogOut} from  "lucide-react"
+import {LogOut,CircleAlert} from  "lucide-react"
 import { useAuthStore } from "@/app/store/authStore"; 
 
 export default function LogoutButton() {
@@ -32,23 +32,22 @@ export default function LogoutButton() {
 
       setTimeout(() => router.push("/"), 1000);
 
-    } catch (error) {
-      
-      toast.error("No se pudo cerrar sesión correctamente");
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "No se pudo cerrar sesión correctamente";
+     
+      toast.error(message, {
+        icon: <CircleAlert color="#FAFAFA" size={20} />,
+        style: { background: "#E74C3C", color: "#FAFAFA" },
+      });
     }
+
   };
 
   return (
     <button
       onClick={handleLogout}
-      className="absolute top-4 right-7 flex justify-between text-[#0F2550]
-                 w-[82px] sm:w-[95px] 
-                 px-3 py-2
-                 bg-white/20 backdrop-blur-md border-l-3 border-[#1ABC9C]
-                 font-medium rounded-md
-                 hover:bg-[#1ABC9C] hover:border-[#1ABC9C]
-                 active:scale-95 transition-all duration-200 cursor-pointer"
-    >
+      className="flex w-[160px] px-[20px] justify-between items-center cursor-pointer">
 
      <LogOut className="w-[15px]"/> Salir
     </button>

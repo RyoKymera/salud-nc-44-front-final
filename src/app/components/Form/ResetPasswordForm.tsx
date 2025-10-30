@@ -65,9 +65,11 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
       });
 
       setTimeout(() => router.push("/login"), 2000);
-    } catch (err) {
-      
-      toast.error("Error al restablecer la contraseña", {
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "Error al restablecer la contraseña";
+     
+      toast.error( message, {
         icon: <CircleAlert color="#FAFAFA" size={20} />,
         style: { background: "#E74C3C", color: "#FAFAFA" },
       });

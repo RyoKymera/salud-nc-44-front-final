@@ -43,9 +43,11 @@ export default function RecoverPasswordForm() {
 
         router.push(`/reset-password?token=${resetToken}`);
 
-    } catch (err) {
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error ? err.message : "Error al enviar la solicitud";
      
-      toast.error("Error al enviar la solicitud", {
+      toast.error( message,{
         icon: <CircleAlert color="#FAFAFA" size={20} />,
         style: { background: "#E74C3C", color: "#FAFAFA" },
       });

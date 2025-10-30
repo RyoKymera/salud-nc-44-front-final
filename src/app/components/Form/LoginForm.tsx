@@ -8,6 +8,18 @@ import { jwtDecode } from "jwt-decode";
 import { useAuthStore } from "@/app/store/authStore";
 
 
+interface JwtPayload {
+  sub: number;      
+  name: string;
+  lastname: string;
+  dni: string;
+  email: string;
+  gender: string;
+  userType: "ADMIN" | "MEDIC" | "PATIENT";
+  exp: number;
+  iat: number;
+}
+
 
 
 export default function LoginForm() {
@@ -47,6 +59,7 @@ export default function LoginForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({   dni, password }),
+       
       });
       
       
@@ -71,17 +84,21 @@ export default function LoginForm() {
       if (data.access_token) {
         localStorage.setItem("token", data.access_token);
 
-        const decoded: any = jwtDecode(data.access_token);
+        
+        const decoded: JwtPayload = jwtDecode<JwtPayload>(data.access_token);
         //ZUSTAND
          loginStore.login(
-  { 
-    dni: decoded.dni, 
-    role: decoded.userType,
-    name: decoded.name,
-    Lastname: decoded.lastname 
-  },
-  data.access_token
-);
+            { 
+              dni: decoded.dni, 
+              role: decoded.userType,
+              name: decoded.name,
+              lastname:decoded.lastname,
+              gender:decoded.gender,
+              id:decoded.sub
+            },
+            data.access_token
+          );
+
         //localStorage
         const userRole = decoded.userType;// tomamos el rol 
         localStorage.setItem("role", userRole);
